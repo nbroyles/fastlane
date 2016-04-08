@@ -51,12 +51,12 @@ Follow the `danger` guide to authenticate with GitHub
 Edit `fastlane/Fastfile`. Feel free to remove the auto-generated lanes. Add the following lane:
 
 ```ruby
-desc "Generate a device grid, that will be posted to GitHub"
-lane :device_grid do
+desc "Build your app and upload it to Appetize to stream it in your browser"
+lane :upload_to_appetize do
   import_from_git(url: "https://github.com/fastlane/fastlane",
-                  path: "fastlane/lib/fastlane/actions/device_grid/DeviceGridFastfile")
+                 path: "fastlane/lib/fastlane/actions/device_grid/BuildAndUploadAppetize")
 
-  generate_device_grid(
+  build_and_upload_appetize(
     xcodebuild: {
       workspace: "YourApp.xcworkspace",
       scheme: "YourScheme"
@@ -73,7 +73,7 @@ Edit `Dangerfile` and replace the content with
 
 ```ruby
 puts "Running fastlane to generate and upload an ipa file..."
-puts `fastlane device_grid` # this will generate and upload your ipa file
+puts `fastlane upload_to_appetize` # this will generate and upload your ipa file
 
 import "https://raw.githubusercontent.com/fastlane/fastlane/master/fastlane/lib/fastlane/actions/device_grid/device_grid.rb"
 
@@ -86,3 +86,21 @@ device_grid(
 ### Try it
 
 Push everything to GitHub in its own branch and create a `[WIP]` PR to trigger your CI system. 
+
+### Make use of deep linking
+
+When you submit a PR you usually know what part of your app should be reviewed. Make it easier for everyone by providing a deep link, launching the app at the right point. To do so, use emojis (what else):
+
+Add this to the bottom of your PR-body:
+
+```
+:link: me.themoji.app://emoji/sparkles
+```
+
+### Make use of `NSUserDefaults`
+
+To check if the app currently runs on Appetize, just use
+
+```objective-c
+[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppetize"]
+```

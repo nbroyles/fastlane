@@ -1,7 +1,7 @@
 desc "Generate and upload an .app to appetize.io"
 desc "Import this lane and call it from Danger"
 
-private_lane :generate_device_grid do |options|
+private_lane :build_and_upload_appetize do |options|
   tmp_path = "/tmp/fl_build"
 
   xcodebuild_configs = options[:xcodebuild]

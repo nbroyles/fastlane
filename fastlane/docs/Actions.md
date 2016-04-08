@@ -1070,6 +1070,31 @@ appetize(
 
 If you provide a `public_key`, this will overwrite an existing application. If you want to have this build as a new app version, you shouldn't provide this value.
 
+#### `device_grid` for your Pull Requests
+
+![../lib/fastlane/actions/device_grid/assets/GridExampleScreenshot.png](../lib/fastlane/actions/device_grid/assets/GridExampleScreenshot.png)
+
+Follow [this guide](https://github.com/fastlane/fastlane/blob/master/fastlane/lib/fastlane/actions/device_grid/README.md) to get a grid of devices every time you submit a pull request. The apps will be uploaded to [appetize.io](https://appetize.io/) so you can stream and try them right in your browser.
+
+[Open the Guide](https://github.com/fastlane/fastlane/blob/master/fastlane/lib/fastlane/actions/device_grid/README.md)
+
+#### Manually build and upload to [Appetize.io](https://appetize.io/)
+
+desc "Build your app and upload it to Appetize to stream it in your browser"
+lane :upload_to_appetize do
+  import_from_git(url: "https://github.com/fastlane/fastlane",
+                 path: "fastlane/lib/fastlane/actions/device_grid/BuildAndUploadAppetize")
+
+  build_and_upload_appetize(
+    xcodebuild: {
+      workspace: "YourApp.xcworkspace",
+      scheme: "YourScheme"
+    }
+  )
+end
+
+#### Manually using `appetize_url_generator`
+
 Use the `appetize` action together with `appetize_url_generator`
 
 ```ruby
@@ -1095,7 +1120,7 @@ url = appetize_url_generator(scale: "75", color: "black")
 UI.message("Generated URL: #{url}")
 ```
 
-You can check if your app is currently running on [Appetize.io](https://appetize.io/) using 
+From within your app, you can check it is currently running on [Appetize.io](https://appetize.io/) using 
 
 ```objective-c
 [[NSUserDefaults standardUserDefaults] objectForKey:@"isAppetize"]
@@ -1106,7 +1131,6 @@ for Android use
 ```java
 getIntent().getBooleanExtra("isAppetize", false)
 ```
-
 
 ### [Appaloosa](https://www.appaloosa-store.com)
 
