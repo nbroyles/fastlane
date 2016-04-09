@@ -43,7 +43,6 @@ module Danger
                 params_str = params.collect { |k, v| "#{k}:\"#{v}\"" }.join(" ")
                 url = `#{prefix_command} fastlane run appetize_url_generator #{params_str}`
                 url = url.match(%r{Result:.*(https\:\/\/.*)})[1].strip
-                puts "Generated URL '#{url}'"
 
                 markdown("<a href='#{url}'>")
                   markdown("<img src='#{url_for_device(current_device)}' />")
