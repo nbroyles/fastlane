@@ -35,7 +35,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :public_key,
                                        env_name: "APPETIZE_PUBLICKEY",
                                        description: "Public key of the app you wish to update",
-                                       type: String,
+                                       is_string: true,
                                        default_value: Actions.lane_context[SharedValues::APPETIZE_PUBLIC_KEY],
                                        optional: true,
                                        verify_block: proc do |value|
@@ -46,12 +46,12 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :device,
                                        env_name: "APPETIZE_URL_GENERATOR_DEVICE",
                                        description: "Device type: iphone4s, iphone5s, iphone6, iphone6plus, ipadair, iphone6s, iphone6splus, ipadair2, nexus5, nexus7 or nexus9",
-                                       type: String,
+                                       is_string: true,
                                        default_value: "iphone5s"),
           FastlaneCore::ConfigItem.new(key: :scale,
                                        env_name: "APPETIZE_URL_GENERATOR_SCALE",
                                        description: "Scale of the simulator",
-                                       type: String,
+                                       is_string: true,
                                        default_value: "100",
                                        verify_block: proc do |value|
                                          available = ["25", "50", "75", "100"]
@@ -60,7 +60,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :orientation,
                                        env_name: "APPETIZE_URL_GENERATOR_ORIENTATION",
                                        description: "Device orientation",
-                                       type: String,
+                                       is_string: true,
                                        default_value: "portrait",
                                        verify_block: proc do |value|
                                          available = ["portrait", "landscape"]
@@ -69,12 +69,12 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :language,
                                        env_name: "APPETIZE_URL_GENERATOR_LANGUAGE",
                                        description: "Device language in ISO 639-1 language code, e.g. 'de'",
-                                       type: String,
+                                       is_string: true,
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :color,
                                        env_name: "APPETIZE_URL_GENERATOR_COLOR",
                                        description: "Color of the device",
-                                       type: String,
+                                       is_string: true,
                                        default_value: "black",
                                        verify_block: proc do |value|
                                          available = ["black", "white", "silver", "gray"]
@@ -83,7 +83,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :launch_url,
                                        env_name: "APPETIZE_URL_GENERATOR_LAUNCH_URL",
                                        description: "Specify a deep link to open when your app is launched",
-                                       type: String,
+                                       is_string: true,
                                        optional: true)
         ]
       end

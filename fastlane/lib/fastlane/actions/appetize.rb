@@ -90,24 +90,24 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :api_token,
                                        env_name: "APPETIZE_API_TOKEN",
                                        description: "Appetize.io API Token",
-                                       type: String,
+                                       is_string: true,
                                        verify_block: proc do |value|
                                          UI.user_error!("No API Token for Appetize.io given, pass using `api_token: 'token'`") unless value.to_s.length > 0
                                        end),
           FastlaneCore::ConfigItem.new(key: :url,
                                        env_name: "APPETIZE_URL",
                                        description: "Target url of the zipped build. Either this or `path` must be specified",
-                                       type: String,
+                                       is_string: true,
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :path,
                                        env_name: "APPETIZE_FILE_PATH",
                                        description: "Path to zipped build on the local filesystem. Either this or `url` must be specified",
-                                       type: String,
+                                       is_string: true,
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :public_key,
                                        env_name: "APPETIZE_PUBLICKEY",
-                                       description: "If not provided, a new app will be created. If provided, the existing build will be overwritten",
-                                       type: String,
+                                       description: "If not provided, a new app will be created. If provided, the existing build will be overwritten"
+                                       is_string: true,
                                        optional: true,
                                        verify_block: proc do |value|
                                          if value.start_with?("private_")
@@ -117,7 +117,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :note,
                                        env_name: "APPETIZE_NOTE",
                                        description: "Notes you wish to add to the uploaded app",
-                                       type: String,
+                                       is_string: true,
                                        optional: true)
         ]
       end
