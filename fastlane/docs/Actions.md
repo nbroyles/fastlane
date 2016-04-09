@@ -1080,10 +1080,11 @@ Follow [this guide](https://github.com/fastlane/fastlane/blob/master/fastlane/li
 
 #### Manually build and upload to [Appetize.io](https://appetize.io/)
 
+```ruby
 desc "Build your app and upload it to Appetize to stream it in your browser"
 lane :upload_to_appetize do
   import_from_git(url: "https://github.com/fastlane/fastlane",
-                 path: "fastlane/lib/fastlane/actions/device_grid/BuildAndUploadAppetize")
+                 path: "fastlane/lib/fastlane/actions/device_grid/AppetizeFastfile")
 
   build_and_upload_appetize(
     xcodebuild: {
@@ -1092,6 +1093,7 @@ lane :upload_to_appetize do
     }
   )
 end
+```
 
 #### Manually using `appetize_url_generator`
 
@@ -1107,7 +1109,7 @@ xcodebuild(
 )
 
 app_path = Dir[File.join(tmp_path, "**", "*.app")].last
-UI.user_error("Couldn't find app") unless app_path
+UI.user_error!("Couldn't find app") unless app_path
 
 zipped_ipa = zip(path: app_path, output_path: File.join(tmp_path, "Result.zip"))
 

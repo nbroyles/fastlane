@@ -1,6 +1,6 @@
 # fastlane danger Device Grid
 
-Follow this guide to get a grid of devices every time you submit a pull request. The apps will be uploaded to [appetize.io](https://appetize.io/) so you can stream and try them right in your browser.
+Ever dream of testing your app straight from a pull request? Well now you can! With [fastlane](https://fastlane.tools), [danger](https://github.com/danger/danger) and [appetize.io](https://appetize.io/), you can stream your latest changes right from the browser.
 
 No more manually installing and testing your app just to review a PR.
 
@@ -46,7 +46,7 @@ danger init
 
 Follow the `danger` guide to authenticate with GitHub
 
-### Configure fastlnae
+### Configure [fastlane](https://fastlane.tools)
 
 Edit `fastlane/Fastfile`. Feel free to remove the auto-generated lanes. Add the following lane:
 
@@ -54,7 +54,7 @@ Edit `fastlane/Fastfile`. Feel free to remove the auto-generated lanes. Add the 
 desc "Build your app and upload it to Appetize to stream it in your browser"
 lane :upload_to_appetize do
   import_from_git(url: "https://github.com/fastlane/fastlane",
-                 path: "fastlane/lib/fastlane/actions/device_grid/BuildAndUploadAppetize")
+                 path: "fastlane/lib/fastlane/actions/device_grid/AppetizeFastfile")
 
   build_and_upload_appetize(
     xcodebuild: {
@@ -85,7 +85,7 @@ device_grid(
 
 ### Try it
 
-Push everything to GitHub in its own branch and create a `[WIP]` PR to trigger your CI system. 
+Push everything to GitHub in its own branch and create a PR to trigger your CI system. 
 
 ### Make use of deep linking
 

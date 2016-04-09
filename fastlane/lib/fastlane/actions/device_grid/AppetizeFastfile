@@ -11,7 +11,7 @@ private_lane :build_and_upload_appetize do |options|
   xcodebuild(xcodebuild_configs)
 
   app_path = Dir[File.join(tmp_path, "**", "*.app")].last
-  UI.user_error("Couldn't find app") unless app_path
+  UI.user_error!("Couldn't find app") unless app_path
 
   zipped_ipa = zip(path: app_path, output_path: File.join(tmp_path, "Result.zip"))
 
