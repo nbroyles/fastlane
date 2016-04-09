@@ -5,7 +5,7 @@ module Danger
     module DSL
       # A danger plugin: https://github.com/danger/danger
       class DeviceGrid < Plugin
-        # @param languages: Array of languages you want to see (e.g. [en-US])
+        # @param languages: Array of languages you want to see (e.g. [en, de])
         # @param devices: Array of deviecs you want to see (e.g. ["iphone4s", "ipadair"])
         def run(languages: nil, devices: nil)
           public_key_path = "fastlane/public_key.txt"
@@ -14,7 +14,7 @@ module Danger
           File.delete(public_key_path)
 
           devices ||= %w(iphone4s iphone5s iphone6s iphone6splus ipadair)
-          languages ||= ["en-US"]
+          languages ||= ["en"]
 
           deep_link_matches = pr_body.match(/:link:\s(.*)/) # :link: emoji
           deep_link = deep_link_matches[1] if deep_link_matches
