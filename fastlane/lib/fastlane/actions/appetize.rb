@@ -106,7 +106,7 @@ module Fastlane
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :public_key,
                                        env_name: "APPETIZE_PUBLICKEY",
-                                       description: "If not provided, a new app will be created. If provided, the existing build will be overwritten"
+                                       description: "If not provided, a new app will be created. If provided, the existing build will be overwritten",
                                        is_string: true,
                                        optional: true,
                                        verify_block: proc do |value|
