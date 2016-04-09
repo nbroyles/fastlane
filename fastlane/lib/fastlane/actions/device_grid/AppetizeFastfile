@@ -17,6 +17,6 @@ private_lane :build_and_upload_appetize do |options|
 
   appetize(path: zipped_ipa)
 
-  File.write("public_key.txt", lane_context[SharedValues::APPETIZE_PUBLIC_KEY])
+  File.write("appetize_public_key.txt", lane_context[SharedValues::APPETIZE_PUBLIC_KEY])
   UI.success("Generated Public Key: #{lane_context[SharedValues::APPETIZE_PUBLIC_KEY]}")
 end
