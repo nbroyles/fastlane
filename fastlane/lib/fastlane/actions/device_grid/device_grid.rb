@@ -63,8 +63,14 @@ module Danger
             iphone5s: "iPhone 5s",
             iphone6s: "iPhone 6s",
             iphone6splus: "iPhone 6s Plus",
-            ipadair: "iPad Air"
-          }[str]
+            ipadair: "iPad Air",
+            iphone6: "iPhone 6",
+            iphone6plus: "iPhone 6 Plus",
+            ipadair2: "iPad Air 2",
+            nexus5: "Nexus 5",
+            nexus7: "Nexus 7",
+            nexus9: "Nexus 9"
+          }[str] || str.to_s
         end
 
         def url_for_device(str)
@@ -75,7 +81,7 @@ module Danger
             iphone6s: "http://mockuphone.com/static/images/phones/iphone6/iphone6_spacegrey_portrait.png",
             iphone6splus: "http://mockuphone.com/static/images/phones/iphone6plus/iphone6plus_spacegrey_portrait.png",
             ipadair: "http://mockuphone.com/static/images/phones/ipadair2/ipadair2_spacegrey_portrait.png"
-          }[str]
+          }[str] || ""
         end
 
         def self.description
