@@ -1128,12 +1128,6 @@ From within your app, you can check it is currently running on [Appetize.io](htt
 [[NSUserDefaults standardUserDefaults] objectForKey:@"isAppetize"]
 ```
 
-for Android use
-
-```java
-getIntent().getBooleanExtra("isAppetize", false)
-```
-
 ### [Appaloosa](https://www.appaloosa-store.com)
 
 Upload your ipa or apk to your private store on Appaloosa.
