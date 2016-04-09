@@ -7,7 +7,9 @@ module Danger
       class DeviceGrid < Plugin
         # @param languages: Array of languages you want to see (e.g. [en, de])
         # @param devices: Array of deviecs you want to see (e.g. ["iphone4s", "ipadair"])
-        def run(languages: nil, devices: nil)
+        # @param prefix_command: Prefix the `fastlane run appetize_url_generator` command with something
+        #   this can be used to use `bundle exec`
+        def run(languages: nil, devices: nil, prefix_command: nil)
           public_key_path = "fastlane/public_key.txt"
           public_key = File.read(public_key_path).strip if File.exist?(public_key_path)
           UI.user_error!("No #{public_key_path} file found, make sure to run fastlane with `generate_device_grid` before calling `device_grid` in danger") if public_key.to_s.length == 0
@@ -15,6 +17,7 @@ module Danger
 
           devices ||= %w(iphone4s iphone5s iphone6s iphone6splus ipadair)
           languages ||= ["en"]
+          prefix_command ||= ""
 
           deep_link_matches = pr_body.match(/:link:\s(.*)/) # :link: emoji
           deep_link = deep_link_matches[1] if deep_link_matches
@@ -38,7 +41,7 @@ module Danger
                 }
                 params[:launch_url] = deep_link if deep_link
                 params_str = params.collect { |k, v| "#{k}:\"#{v}\"" }.join(" ")
-                url = `fastlane run appetize_url_generator #{params_str}`
+                url = `#{prefix_command} fastlane run appetize_url_generator #{params_str}`
                 url = url.match(%r{Result:.*(https\:\/\/.*)})[1].strip
                 puts "Generated URL '#{url}'"
 
