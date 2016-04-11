@@ -274,6 +274,10 @@ module Spaceship
         # @param bundle_id (String) (optional): The app identifier this certificate is for.
         #  This value is only needed if you create a push profile. For normal code signing
         #  certificates, you must only pass a certificate signing request.
+        # @param pass_type_id (String) (optional): Only set this field if you're
+        #  creating a certificate associated with a pass type ID. In that case
+        #  this field is required. This field is the ID field on the
+        #  PassTypeID object.
         # @example
         #  # Create a new certificate signing request
         #  csr, pkey = Spaceship::Certificate.create_certificate_signing_request
@@ -281,7 +285,7 @@ module Spaceship
         #  # Use the signing request to create a new distribution certificate
         #  Spaceship::Certificate::Production.create!(csr: csr)
         # @return (Certificate): The newly created certificate
-        def create!(csr: nil, bundle_id: nil)
+        def create!(csr: nil, bundle_id: nil, pass_type_id: nil)
           type = CERTIFICATE_TYPE_IDS.key(self)
 
           # look up the app_id by the bundle_id
@@ -291,11 +295,17 @@ module Spaceship
             app_id = app.app_id
           end
 
+          if (type == Passbook && !pass_type_id) || (type == Passbook &&
+            !Spaceship::Portal::PassTypeId.find(pass_type_id))
+            raise "pass_type_id must be the ID of a valid pass_type_id." +
+              "#{pass_type_id} does not exist"
+          end
+
           # ensure csr is a OpenSSL::X509::Request
           csr = OpenSSL::X509::Request.new(csr) if csr.kind_of?(String)
 
           # if this succeeds, we need to save the .cer and the private key in keychain access or wherever they go in linux
-          response = client.create_certificate!(type, csr.to_pem, app_id)
+          response = client.create_certificate!(type, csr.to_pem, app_id, pass_type_id)
           # munge the response to make it work for the factory
           response['certificateTypeDisplayId'] = response['certificateType']['certificateTypeDisplayId']
           self.new(response)

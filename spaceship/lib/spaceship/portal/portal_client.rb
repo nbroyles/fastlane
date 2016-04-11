@@ -272,15 +272,26 @@ module Spaceship
       end
     end
 
-    def create_certificate!(type, csr, app_id = nil)
+    def create_certificate!(type, csr, app_id = nil, pass_type_id = nil)
       ensure_csrf
 
-      r = request(:post, 'account/ios/certificate/submitCertificateRequest.action', {
+      params = {
         teamId: team_id,
         type: type,
         csrContent: csr,
-        appIdId: app_id # optional
-      })
+      }
+
+      params.merge!({ appIdId: app_id }) if app_id
+      if pass_type_id
+        params.merge!({
+          passTypeId: pass_type_id,
+          # TODO(nb): fix this hack -- extend passbook cert w/ custom passbook type
+          type: "S5WE21TULA",
+          specialIdentifierDisplayId: pass_type_id
+        })
+      end
+
+      r = request(:post, 'account/ios/certificate/submitCertificateRequest.action', params)
       parse_response(r, 'certRequest')
     end
 
@@ -310,7 +321,7 @@ module Spaceship
     end
 
     #####################################################
-    # @!group Provisioning Profiles
+    # @!group provisioning profiles
     #####################################################
 
     def provisioning_profiles(mac: false)
@@ -375,6 +386,35 @@ module Spaceship
       })
 
       parse_response(r, 'provisioningProfile')
+    end
+
+    #####################################################
+    # @!group pass type ids
+    #####################################################
+
+    def pass_type_ids
+      paging do |page_number|
+        r = request(:post, "account/ios/identifiers/listAvailableIdentifiersByCertType", {
+          teamId: team_id,
+          certificateTypeDisplayId:
+            Spaceship::Portal::Certificate::CERTIFICATE_TYPE_IDS.key(Spaceship::Portal::Certificate::Passbook),
+          pageNumber: page_number,
+          pageSize: page_size,
+          sort: 'name=asc'
+        })
+        parse_response(r, 'identifierList')
+      end
+    end
+
+    def create_pass_type_id!(name, identifier)
+      ensure_csrf
+
+      r = request(:post, 'account/ios/identifiers/addPassTypeId.action', {
+        teamId: team_id,
+        name: name,
+        identifier: identifier
+      })
+      parse_response(r, 'passTypeId')
     end
 
     private
